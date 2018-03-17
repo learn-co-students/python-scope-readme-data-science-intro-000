@@ -1,442 +1,206 @@
 
-# Introduction to lists
+# Working with Scope
 
-So far we have worked with individual pieces of data like the string `hello`, then with variables we saw how to give this data a name with variables.  Well in this lesson, we'll see how we can group data together with lists.  
+### Introduction
 
-### Creating a list 
-
-A list is our first form of a collection.  A collection is just a way of grouping data together, and lists certainly accomplish this.  For example, let's consider the top cities to travel to according to Travel and Leisure.  We'll see it below, but we must stay focused on Python and data! 
-
-#### Travel Locations
-1. Solta
-2. Greenville
-3. Buenos Aires
-4. Los Cabos
-5. Walla Walla Valley
-6. Marakesh
-7. Albuquerque
-8. Archipelago Sea
-9. Iguazu Falls
-10. Salina Island
-11. Toronto
-12. Pyeongchang
-
-Ok, and this is how we express this in Python.
+In our introduction to functions, we casually introduced something that is quite odd.  Take a look at the following.
 
 
 ```python
-['Solta', 'Greenville', 'Buenos Aires', 'Los Cabos', 'Walla Walla Valley', 'Marakesh', 'Albuquerque', 'Archipelago Sea', 'Iguazu Falls', 'Salina Island', 'Toronto', 'Pyeongchang']
+def sample_function(): 
+    words = 'function body' 
+```
+
+
+```python
+words
+```
+
+
+    ---------------------------------------------------------------------------
+
+    NameError                                 Traceback (most recent call last)
+
+    <ipython-input-2-993ed7d20d5f> in <module>()
+    ----> 1 words
+    
+
+    NameError: name 'words' is not defined
+
+
+Somehow, our `words` variable is suddenly inaccessible.  Python has various rules about when and how to access variables.  It gets into a topic called **scope**, and we will explore it in this lesson.
+
+### Global variables
+
+Before our discussion of functions, we have always had access to any variable we had declared.
+
+
+```python
+number = 1
+```
+
+
+```python
+number
+```
+
+We have not thought about it, but we were operating in the global scope.  Whenever we declare a variable that is not declared inside of a function, we are operating in global scope.  This means that the variable is available anywhere in current file.  Accordingly, we can access the variable from outside of a function.
+
+
+
+```python
+number
+```
+
+Or inside of a function.
+
+
+```python
+def access_to_globals():
+    # we can access global variables from inside of our function
+    return number
+
+access_to_globals()
+```
+
+Global variables are a priviledged bunch.  Once declared outside of a function, they can be referenced either inside or outside of a function.  
+
+### Local variables
+
+Local variables are resigned to a different fate than global variables.  The variable `trapped` is a local variable.
+
+
+```python
+def locals_stay_local():
+    trapped = 'not escaping'
+```
+
+
+```python
+locals_stay_local()
+```
+
+It is local as it is first declared from inside fo a function.  Because `trapped` it is local variable, it is inaccessible from outside of the function.
+
+
+```python
+trapped
+```
+
+Because the variable `trapped` is declared inside of the function, it can only be referenced from inside that function.  Believe it or not, this is a helpful feature.  By using a local variable, we know that we only have to pay attention to that variable from inside the body of the function.  We do not have to search our file to see what that variable equals.
+
+And from inside of the function, we can use that variable to make our code more expressive, just like always.
+
+
+```python
+def no_return_full_name():
+    first_name = 'bob'
+    last_name = 'smith'
+    full_name = first_name + ' ' + last_name
+```
+
+### Return statements
+
+Of course we want our function to have some impact outside of itself.  To do that, we use a `return` statement.
+
+Let's execute our function `full_name`.
+
+
+```python
+no_return_full_name()
+```
+
+
+```python
+full_name
+```
+
+If you press shift + enter on the two code blocks above, you have executed that function and tried to reference the variable `full_name`. However, because all of the variables are local, they only available from inside of the function, and it seems like nothing happened.  
+
+So let's write another function called `return_full_name` that has a return statement.
+
+
+```python
+def return_full_name():
+    first_name = 'bob'
+    last_name = 'smith'
+    full_name = first_name + ' ' + last_name
+    return full_name
+```
+
+
+```python
+return_full_name()
 ```
 
 
 
 
-    ['Solta',
-     'Greenville',
-     'Buenos Aires',
-     'Los Cabos',
-     'Walla Walla Valley',
-     'Marakesh',
-     'Albuquerque',
-     'Archipelago Sea',
-     'Iguazu Falls',
-     'Salina Island',
-     'Toronto',
-     'Pyeongchang']
+    'bob smith'
 
 
 
-So we indicate that we are initializing a `list` by placing a bracket, `[` (located above of the return key), and end the list with a closing bracket `']'`.  To separate each item in the list, called an element, we place a comma.
+Now the string is returned from the function.  Notice that the `full_name` is still not available globally.
 
 
 ```python
-['Croatia', 'USA', 'Argentina', 'Mexico', 'USA', 'Morocco', 'New Mexico', 'Finland', 'Argentina', 'Italy', 'Canada', 'South Korea']
+first_and_last
+```
+
+
+    ---------------------------------------------------------------------------
+
+    NameError                                 Traceback (most recent call last)
+
+    <ipython-input-14-e9b1eade3919> in <module>()
+    ----> 1 first_and_last
+    
+
+    NameError: name 'first_and_last' is not defined
+
+
+However, we did throw the variable's value over the wall.  And if we wish to use it with more code we can.  For example, we can combine the return value with another expression:
+
+
+```python
+'Hello ' + return_full_name()
+```
+
+Or we can save it's return globally, by storing that `return` value as a variable in global scope.
+
+
+```python
+a_fine_name = return_full_name()
+a_fine_name
 ```
 
 
 
 
-    ['Croatia',
-     'USA',
-     'Argentina',
-     'Mexico',
-     'USA',
-     'Morocco',
-     'New Mexico',
-     'Finland',
-     'Argentina',
-     'Italy',
-     'Canada',
-     'South Korea']
+    'bob smith'
 
 
 
-And of course, we can set each list equal to variable so that we can name each list.
+So variables declared inside of a function are still only available globally.  However by using a return statement we can throw the data like a string over the wall of the function and into global scope.  
+
+Another thing to note about a return statement is that once a function reaches the return statement, no other lines of the function are executed.
 
 
 ```python
-top_travel_cities = ['Solta', 'Greenville', 'Buenos Aires', 'Los Cabos', 'Walla Walla Valley', 'Marakesh', 'Albuquerque', 'Archipelago Sea', 'Iguazu Falls', 'Salina Island', 'Toronto', 'Pyeongchang']
-```
-
-
-```python
-top_travel_cities
+def return_statements():
+    'this is executed'
+    return 'what'
+    'this is not executed'
+return_statements()
 ```
 
 
 
 
-    ['Solta',
-     'Greenville',
-     'Buenos Aires',
-     'Los Cabos',
-     'Walla Walla Valley',
-     'Marakesh',
-     'Albuquerque',
-     'Archipelago Sea',
-     'Iguazu Falls',
-     'Salina Island',
-     'Toronto',
-     'Pyeongchang']
-
-
-
-
-```python
-countries_of_top_cities = ['Croatia', 'USA', 'Argentina', 'Mexico', 'USA', 'Morocco', 'New Mexico', 'Finland', 'Argentina', 'Italy', 'Canada', 'South Korea']
-```
-
-### Accessing Elements of Lists
-
-Now our `top_travel_cities` list is contains multiple elements.  And just like we numbered the elements of a list with text:
-
-1. Solta
-2. Greenville
-3. Buenos Aires
-
-A list in Python also assigns a number to each element.
-
-
-```python
-top_travel_cities
-```
-
-
-
-
-    ['Solta',
-     'Greenville',
-     'Buenos Aires',
-     'Los Cabos',
-     'Walla Walla Valley',
-     'Marakesh',
-     'Albuquerque',
-     'Archipelago Sea',
-     'Iguazu Falls',
-     'Salina Island',
-     'Toronto',
-     'Pyeongchang']
-
-
-
-
-```python
-top_travel_cities[0]
-```
-
-
-
-
-    'Solta'
-
-
-
-In the above line we are referencing a list and then using the brackets to access specific elements of our list.  We access elements in a list with the `index`, and there is a separate index for each element in the list.  It begins at the number zero, increases for every element thereafter.
-
-So to access the second element we write `top_travel_cities[1]`, and the third element is `top_travel_cities[2]`:
-
-
-```python
-top_travel_cities[2]
-```
-
-
-
-
-    'Buenos Aires'
-
-
-
-How would we access the last element, well we could count all of the elements in the list, and `Pyeongchang` would just be one less than that.  Or we can ask Python to start from the back in move back one.
-
-
-```python
-top_travel_cities[-1]
-```
-
-
-
-
-    'Pyeongchang'
-
-
-
-And we can move back as many as we want.
-
-
-```python
-top_travel_cities[-2]
-```
-
-
-
-
-    'Toronto'
-
-
-
-### Accessing Multiple Elements
-
-Now imagine that we don't want to access just one element of a list, but multiple elements at once.  Python allows us to do that as well.
-
-
-```python
-top_travel_cities[0:2]
-```
-
-
-
-
-    ['Solta', 'Greenville']
-
-
-
-Ok, now to access elements of a list, inside of our brackets we are placing two numbers separated by a colon.  The first number indicates the index of the first element we want returned.  
-
-The second number could represent the number of elements we want returned back, or maybe it represents the stopping index of the elements that we are retrieving.  Looking at our `top_travel_cities` it could be either.
-
-
-```python
-top_travel_cities
-```
-
-
-
-
-    ['Solta',
-     'Greenville',
-     'Buenos Aires',
-     'Los Cabos',
-     'Walla Walla Valley',
-     'Marakesh',
-     'Albuquerque',
-     'Archipelago Sea',
-     'Iguazu Falls',
-     'Salina Island',
-     'Toronto',
-     'Pyeongchang']
-
-
-
-So let's try a different experiment to answer our question.
-
-
-```python
-top_travel_cities[4:5]
-```
-
-
-
-
-    ['Walla Walla Valley']
-
-
-
-Ok, so that second number is not representing the number of elements we want returned.  Instead it must be used to indicate the index of the first element not selected.  
-
-
-```python
-top_travel_cities[4:6]
-```
-
-
-
-
-    ['Walla Walla Valley', 'Marakesh']
-
-
-
-This operation is called the `slice`.  So we can say we are `slicing` the elements with indices 4 and 5 in the line above.  Note that even though we are `slicing` elements, our list remains in tact.
-
-
-```python
-top_travel_cities
-```
-
-
-
-
-    ['Solta',
-     'Greenville',
-     'Buenos Aires',
-     'Los Cabos',
-     'Walla Walla Valley',
-     'Marakesh',
-     'Albuquerque',
-     'Archipelago Sea',
-     'Iguazu Falls',
-     'Salina Island',
-     'Toronto',
-     'Pyeongchang']
-
-
-
-### Changing elements
-
-Now that we read and select certain elements from lists, let's work on changing these lists.  To add a new element to a list, we can use the `append` method.
-
-
-```python
-top_travel_cities.append('San Antonio')
-```
-
-Now let's take another look at `top_travel_cities`.
-
-
-```python
-top_travel_cities
-```
-
-
-
-
-    ['Solta',
-     'Greenville',
-     'Buenos Aires',
-     'Los Cabos',
-     'Walla Walla Valley',
-     'Marakesh',
-     'Albuquerque',
-     'Archipelago Sea',
-     'Iguazu Falls',
-     'Salina Island',
-     'Toronto',
-     'Pyeongchang',
-     'San Antonio']
-
-
-
-You will see 'San Antonio' included in the list.  Now what if we accidentally add 'San Antonio' a second time to our list.  No worries, we can remove the last element from a list with the `pop` method.
-
-
-```python
-top_travel_cities.pop()
-```
-
-
-
-
-    'San Antonio'
-
-
-
-
-```python
-top_travel_cities
-```
-
-
-
-
-    ['Solta',
-     'Greenville',
-     'Buenos Aires',
-     'Los Cabos',
-     'Walla Walla Valley',
-     'Marakesh',
-     'Albuquerque',
-     'Archipelago Sea',
-     'Iguazu Falls',
-     'Salina Island',
-     'Toronto',
-     'Pyeongchang']
-
-
-
-Now if we want to change an element from the middle of the list, we can access and then reassign that element.  So for example, let's change 'Walla Walla Valley' to the number 4.
-
-
-```python
-top_travel_cities[4]
-```
-
-
-
-
-    'Walla Walla Valley'
-
-
-
-
-```python
-top_travel_cities[4] = 4
-```
-
-
-```python
-top_travel_cities
-```
-
-
-
-
-    ['Solta',
-     'Greenville',
-     'Buenos Aires',
-     'Los Cabos',
-     4,
-     'Marakesh',
-     'Albuquerque',
-     'Archipelago Sea',
-     'Iguazu Falls',
-     'Salina Island',
-     'Toronto',
-     'Pyeongchang']
-
-
-
-And our list is now changed.  It's not a sensible list right now, so let's change it back.
-
-
-```python
-top_travel_cities[4] = 'Walla Walla Valley'
-```
-
-And our list is alright.
-
-
-```python
-top_travel_cities
-```
-
-
-
-
-    ['Solta',
-     'Greenville',
-     'Buenos Aires',
-     'Los Cabos',
-     'Walla Walla Valley',
-     'Marakesh',
-     'Albuquerque',
-     'Archipelago Sea',
-     'Iguazu Falls',
-     'Salina Island',
-     'Toronto',
-     'Pyeongchang']
+    'what'
 
 
 
 ### Summary
 
-In this section we saw how to associate data together in a collection, called a list.  A list is similar to a list in the real world - it implies the data has some connection, and that it has an order to it.  We initialize a list with the brackets, `[]`, and separate each element by a comma.  To access elements from a list, we use the bracket accessor followed by the index of the element we want to retrieve.  And our indices began at zero and increase from there.  To add a new element to the end of the list we use the `append` method, and to remove an element from the end of a list we use `pop`.  We can change elements anywhere between by first accessing the elements and then reassigning them.
+In this section we learned about scope.  We saw how when we declare a variable outside of a function, we are declaring that variable in global scope.  This means that the variable is available throughout the file it is declared in - inside of functions and out.  Variables declared inside of functions are local variables, and are available to be referenced from inside of the function in which they are declared.  However, we can have the data that a local variable points to be thrown over the walls of the function by using the `return` keyword.  The combination of local variables with returning specific data allows us to encapsulate our code inside of a function, and be explicitly state what should be returned, and thus accessible from outside of the function.
