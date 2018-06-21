@@ -12,8 +12,8 @@ In our introduction to functions, we casually introduced something that is quite
 
 
 ```python
-def sample_function(): 
-    words = 'function body' 
+def sample_function():
+    words = 'function body'
 ```
 
 
@@ -28,16 +28,16 @@ words
 
     <ipython-input-2-993ed7d20d5f> in <module>()
     ----> 1 words
-    
+
 
     NameError: name 'words' is not defined
 
 
-Somehow, our `words` variable is suddenly inaccessible. Python has various rules about when and how to access variables and data throughout a file. As we'll see in this lesson, accessibility of a variable depends on whether that variable is a global variable or a local variable. We will also see how a function's return statement allows us to send data inside of a function into global scope. 
+Somehow, our `words` variable is suddenly inaccessible. Python has various rules about when and how to access variables and data throughout a file. As we'll see in this lesson, accessibility of a variable depends on whether that variable is a global variable or a local variable. We will also see how a function's return statement allows us to send data inside of a function into global scope.
 
 ### Global variables
 
-Before our introuction to functions in the recent lesson, we always had access to any variable we had declared in Python.
+Before our introduction to functions in the recent lesson, we always had access to any variable we had declared in Python.
 
 
 ```python
@@ -69,7 +69,7 @@ def access_to_globals():
 access_to_globals()
 ```
 
-Global variables are a priviledged bunch.  Once declared, they can be referenced either inside or outside of a function.  
+Global variables are a privileged bunch.  Once declared, they can be referenced either inside or outside of a function.  
 
 ### Local variables
 
@@ -86,7 +86,7 @@ def locals_stay_local():
 locals_stay_local()
 ```
 
-Unlike our global variable `number`, `trapped` is first declared from inside a function, making it a local variable. 
+Unlike our global variable `number`, `trapped` is first declared from inside a function, making it a local variable.
 
 
 ```python
@@ -100,7 +100,7 @@ trapped
 
     <ipython-input-4-956155b55e40> in <module>()
     ----> 1 trapped
-    
+
 
     NameError: name 'trapped' is not defined
 
@@ -172,7 +172,7 @@ full_name
 
     <ipython-input-5-1ef4381f016d> in <module>()
     ----> 1 full_name
-    
+
 
     NameError: name 'full_name' is not defined
 
